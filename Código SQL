@@ -1,0 +1,85 @@
+create table imovel(id_Imovel int, disponibilidade varchar(100), foto varchar(100), data_Construcao varchar(100), cidade varchar(100), 
+                    rua varchar(100), bairro varchar(100), numero integer, valor_sugerido float, primary key (id_Imovel));
+
+create table imovel_Casa(id_Casa int, qtd_Quartos integer, qtd_suites int, qtd_Sala_Estar int, qtd_Sala_Jantar int, 
+                         qtd_Vagas_Garagem int, area float, armario_Embutido binary, descricao varchar(100), primary key (id_Casa),
+                         CONSTRAINT FK_Id_Casa FOREIGN KEY (id_Casa) REFERENCES imovel (id_Imovel));
+
+create table imovel_Apartamento(id_Apartamento int, qtd_Quartos int, qtd_suites int, qtd_Sala_Estar int, qtd_Sala_Jantar int, 
+                         qtd_Vagas_Garagem int, area float, armario_Embutido binary, descricao varchar(100), andar int, valor_Condomínio float, 
+                         Portaria24hs binary, primary key (id_Apartamento), CONSTRAINT FK_Id_Apartamento FOREIGN KEY (id_Apartamento) REFERENCES imovel (id_Imovel));                    
+                    
+create table imovel_Sala_Comercial(id_Sala_Comercial int, area float, qtd_Banheiros int, qtd_comodos int,
+                                   primary key (id_Sala_Comercial), CONSTRAINT FK_Id_Sala_Comercial FOREIGN KEY (id_Sala_Comercial) REFERENCES imovel (id_Imovel));                    
+                    
+create table imovel_terreno (id_Terreno int, area float, largura float, comprimento float, possui_Aclive binary, possui_Declive binary,
+                             primary key (id_Terreno), CONSTRAINT FK_Id_Terreno FOREIGN KEY (id_Terreno) REFERENCES imovel (id_Imovel));    
+
+create table cliente (id_Cliente int, cpf varchar(100), nome varchar(100), endereco varchar(100), telefone varchar(100), email varchar(100), sexo varchar(100), estado_Civil varchar(100),
+                      profissao varchar(100), primary key (id_Cliente));            
+
+create table funcionario (id_Funcionario int, id_cargo int, nome varchar(100), cpf varchar(100), endereço varchar(100), telefone_contato varchar(100), telefone_celular varchar(100), 
+                          data_Ingresso_Imobiliária varchar(100), salario float, sistema_Usuario varchar(100), sistema_senha varchar(100), primary key (id_Funcionario),
+                          CONSTRAINT FK_Cargo FOREIGN KEY (id_Cargo) REFERENCES cargo (id_Cargo));
+
+create table cargo (id_Cargo int, cargo varchar(100), salario_Base float, primary key (id_cargo));                          
+
+
+create table vendido_Alugado (id_Imovel int, id_Cliente_Usuario int, id_Funcionario int, nro_Contrato int, fiador varchar(100), idicacao1 varchar(100), idicacao2 varchar(100),
+                              valor_Real float, valor_Destinado_Imobiliaria float, valor_comissao float, id_Forma_Pagamento int,  
+                              primary key (id_Imovel, id_Cliente_Usuario, id_Funcionario, nro_Contrato), 
+                              CONSTRAINT FK_Id_Imovel FOREIGN KEY (id_Imovel) REFERENCES imovel (id_Imovel),
+                              CONSTRAINT FK_Id_Cliente_Usuario FOREIGN KEY (id_Cliente_Usuario) REFERENCES cliente (id_Cliente),
+                              CONSTRAINT FK_Id_Funcionario FOREIGN KEY (id_Funcionario) REFERENCES funcionario (id_Funcionario),
+                              CONSTRAINT FK_Id_FormaPagamento FOREIGN KEY (id_Forma_Pagamento) REFERENCES forma_Pagamento (id_Forma_Pagamento));
+
+create table forma_Pagamento (id_Forma_Pagamento int, forma_Pagamento varchar(100), primary key (id_Forma_Pagamento));
+
+create table historico (id_Imovel int, data_Modificacao varchar(100), primary key (id_Imovel), CONSTRAINT FK_Id_Imovel FOREIGN KEY (id_Imovel) REFERENCES imovel (id_Imovel));
+
+     
+                    
+insert into imovel(id_Imovel, disponibilidade, foto, data_Construcao, cidade, rua, bairro, numero, valor_sugerido) 
+        values(0001, "Disponivel", "D:\\fotos", "01/01/2010", "Barrocas", "Ladeira", "13", 71, 21500.00);
+insert into imovel_Casa(id_Casa, qtd_Quartos, qtd_suites, qtd_Sala_Estar, qtd_Sala_Jantar, qtd_Vagas_Garagem, area, armario_Embutido, descricao) 
+        values(0001, 3, 5, 4, 3, 1, 334.4, 0, "Legal");
+
+insert into imovel(id_Imovel, disponibilidade, foto, data_Construcao, cidade, rua, bairro, numero, valor_sugerido) 
+        values(0002, "Indisponivel", "D:\\fotos", "05/02/2000", "Cedro", "Ladeira", "Sela", 731, 123500.00);
+insert into imovel_Apartamento(id_Apartamento, qtd_Quartos, qtd_suites, qtd_Sala_Estar, qtd_Sala_Jantar, qtd_Vagas_Garagem, area, armario_Embutido, descricao, andar, valor_Condomínio, Portaria24hs) 
+        values (0002, 3, 2 ,3 ,2, 2, 700.00, 1, "Bonito", 4, 200.00, 1);
+
+insert into imovel(id_Imovel, disponibilidade, foto, data_Construcao, cidade, rua, bairro, numero, valor_sugerido) 
+        values(0003, "Disponivel", "D:\\fotos", "05/04/2000", "Godé", "Manga", "Genipapo", 881, 140330.00);
+insert into imovel_Sala_Comercial(id_Sala_Comercial, area, qtd_Banheiros, qtd_comodos)
+        Values (0003, 4444.44, 2,6);
+
+insert into imovel(id_Imovel, disponibilidade, foto, data_Construcao, cidade, rua, bairro, numero, valor_sugerido) 
+        values(0004, "Indisponivel", "D:\\fotos", "03/02/2000", "Godé", "Manga", "Genipapo", 381, 64400.00);
+insert into imovel_terreno (id_Terreno, area, largura, comprimento, possui_Aclive, possui_Declive)
+        values (0004, 100.0, 10.0,10.0, 1, 0);
+        
+insert into cliente (id_Cliente, cpf, nome, endereco, telefone, email, sexo, estado_Civil, profissao)
+        values (0001, "950.020.100-97", "Caio Moura Teles","Vale", "934544332", "caiocaindo@Gmail.com", "Masculino", "Casado", "Bombeiro");
+        
+insert into funcionario (id_Funcionario, id_cargo, nome, cpf, endereço, telefone_contato, telefone_celular, data_Ingresso_Imobiliária , salario, sistema_Usuario, sistema_senha)
+        values (0001, 0001, "Eteovaldo Fulano", "913.222.111.99", "Ali perto", "91707070", "91202020", "25/02/2120", "1000", "Eteovaldo@Fun", "0x8389");
+
+insert into cargo (id_Cargo, cargo, salario_Base) 
+        values (0001, "Vendedor", 1000.00);
+        
+insert into vendido_Alugado (id_Imovel, id_Cliente_Usuario, id_Funcionario, nro_Contrato, fiador, idicacao1, idicacao2, valor_Real, valor_Destinado_Imobiliaria, valor_comissao, id_Forma_Pagamento)
+        values (0002, 0001, 0001, 0001, "Jamal", "José", "Kinkas", 120000.00, 20000, 2000, 0001);
+        
+insert  into forma_Pagamento (id_Forma_Pagamento, forma_Pagamento)
+        Values (0001, "Dinheiro");
+        
+SELECT COUNT(id_Imovel) FROM imovel;
+
+SELECT AVG(valor_sugerido) FROM imovel;
+
+SELECT SUM(valor_sugerido) FROM imovel;
+
+select valor_sugerido from imovel where disponibilidade = "Disponivel";
+
+select * from imovel order by valor_sugerido ASC;
