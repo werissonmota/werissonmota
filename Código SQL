@@ -25,6 +25,8 @@ create table funcionario (id_Funcionario int, id_cargo int, nome varchar(100), c
 create table cargo (id_Cargo int, cargo varchar(100), salario_Base float, primary key (id_cargo));                          
 
 
+create 
+
 create table vendido_Alugado (id_Imovel int, id_Cliente_Usuario int, id_Funcionario int, nro_Contrato int, fiador varchar(100), idicacao1 varchar(100), idicacao2 varchar(100),
                               valor_Real float, valor_Destinado_Imobiliaria float, valor_comissao float, id_Forma_Pagamento int,  
                               primary key (id_Imovel, id_Cliente_Usuario, id_Funcionario, nro_Contrato), 
